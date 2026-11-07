@@ -26,8 +26,8 @@ export const levelFor = (stars: number): number =>
 // Random int in [lo, hi]; rnd() is in [0, 1).
 const int = (lo: number, hi: number, rnd: Rnd): number => lo + Math.floor(rnd() * (hi - lo + 1));
 
-// Fisher-Yates in place; returns the same array.
-const shuffle = <T>(xs: T[], rnd: Rnd): T[] => {
+// Fisher-Yates in place; returns the same array. Shared with the board's colour pick.
+export const shuffle = <T>(xs: T[], rnd: Rnd = Math.random): T[] => {
   for (let i = xs.length - 1; i > 0; i--) {
     const j = int(0, i, rnd);
     [xs[i], xs[j]] = [xs[j] as T, xs[i] as T];

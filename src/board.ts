@@ -1,5 +1,5 @@
 import { byId } from './dom.ts';
-import type { Round } from './math.ts';
+import { shuffle, type Round } from './math.ts';
 
 // The sum and its 3 rising balloons.
 const sum = byId('sum');
@@ -14,10 +14,7 @@ export type PickHandler = (btn: HTMLButtonElement, value: number) => void;
 const rand = (lo: number, hi: number): number => lo + Math.random() * (hi - lo);
 
 // Three different colours for this round.
-function palette(): number[] {
-  const all = Array.from({ length: COLORS }, (_, i) => i).sort(() => Math.random() - 0.5);
-  return all.slice(0, 3);
-}
+const palette = (): number[] => shuffle(Array.from({ length: COLORS }, (_, i) => i)).slice(0, 3);
 
 // One balloon; motion values are CSS variables (CSSOM writes are CSP-safe).
 function balloon(value: number, lane: number, color: number, onPick: PickHandler): HTMLButtonElement {
@@ -45,7 +42,9 @@ export function showRound(round: Round, onPick: PickHandler): void {
   q.textContent = '?';
   sum.replaceChildren(`${round.a} ${round.op} ${round.b} = `, q);
   const colors = palette();
+  const keyboard = sky.contains(document.activeElement); // keep keyboard users in the sky
   sky.replaceChildren(...round.options.map((v, i) => balloon(v, i, colors[i] ?? i, onPick)));
+  if (keyboard) (sky.firstElementChild as HTMLElement | null)?.focus();
 }
 
 // Plays the pop; resolves when it ends (or is cancelled), so the next round never starts early.
