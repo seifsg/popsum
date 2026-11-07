@@ -11,7 +11,7 @@
   --size: clamp(92px, 26cqw, 160px);
   position: absolute;
   top: 100%;
-  left: calc(var(--x) - var(--size) / 2);
+  left: clamp(0px, calc(var(--x) - var(--size) / 2), calc(100% - var(--size))); /* never clipped at the edges */
   width: var(--size);
   height: calc(var(--size) * 1.45);
   padding: 0;

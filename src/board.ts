@@ -23,7 +23,7 @@ function balloon(value: number, lane: number, color: number, onPick: PickHandler
   btn.type = 'button';
   btn.className = `balloon c${color}`;
   btn.setAttribute('aria-label', String(value));
-  btn.style.setProperty('--x', `${((LANES[lane] ?? 0.5) + rand(-0.035, 0.035)) * 100}%`);
+  btn.style.setProperty('--x', `${((LANES[lane] ?? 0.5) + rand(-0.025, 0.025)) * 100}%`);
   btn.style.setProperty('--dur', `${dur.toFixed(2)}s`);
   btn.style.setProperty('--delay', `${(-dur * rand(0.3, 0.55)).toFixed(2)}s`);
   btn.style.setProperty('--sway', `${rand(2.6, 3.6).toFixed(2)}s`);
