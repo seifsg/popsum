@@ -5,15 +5,16 @@
   --sky-low: #e0f2fe;
   --ink: #0f172a;
   --ink-soft: #334155;
-  --card: rgb(255 255 255 / 0.9);
+  --card: rgb(255 255 255 / 0.97);
   --accent: #f59e0b;
   --shadow: 0 6px 0 rgb(15 23 42 / 0.12), 0 12px 28px rgb(15 23 42 / 0.12);
-  --font: ui-rounded, 'SF Pro Rounded', 'Arial Rounded MT Bold', 'Nunito', 'Segoe UI', system-ui, sans-serif;
+  --font-latin: 'Baloo 2', ui-rounded, 'Arial Rounded MT Bold', 'Segoe UI', system-ui, sans-serif;
+  --font: var(--font-latin);
   --gutter: max(12px, env(safe-area-inset-left));
   color-scheme: light;
 }
 :lang(ar) {
-  --font: 'Segoe UI', 'Noto Sans Arabic', Tahoma, system-ui, sans-serif;
+  --font: 'Baloo Bhaijaan 2', var(--font-latin);
 }
 
 * {
@@ -151,11 +152,11 @@ button:focus-visible {
   text-align: center;
 }
 .sum {
-  font-size: clamp(2.6rem, 11vw, 4.2rem);
-  font-weight: 900;
-  line-height: 1.1;
+  font-family: var(--font-latin);
+  font-size: clamp(2.8rem, 12vw, 5rem);
+  font-weight: 800;
+  line-height: 1.05;
   letter-spacing: 0.02em;
-  font-family: ui-rounded, 'SF Pro Rounded', 'Arial Rounded MT Bold', 'Nunito', 'Segoe UI', system-ui, sans-serif;
 }
 .sum .q {
   display: inline-block;
@@ -179,7 +180,9 @@ button:focus-visible {
   font-size: clamp(2.4rem, 12vw, 4.5rem);
   font-weight: 900;
   color: #fff;
-  text-shadow: 0 4px 0 #f59e0b, 0 8px 24px rgb(15 23 42 / 0.35);
+  -webkit-text-stroke: 0.08em #0f172a;
+  paint-order: stroke fill;
+  text-shadow: 0 5px 0 #f59e0b, 0 10px 24px rgb(15 23 42 / 0.35);
   opacity: 0;
   pointer-events: none;
 }
@@ -254,8 +257,7 @@ button:focus-visible {
 }
 @keyframes pulse {
   from {
-    transform: scale(0.92);
-    opacity: 0.4;
+    transform: scale(0.9);
   }
 }
 @keyframes nod {

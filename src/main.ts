@@ -1,3 +1,4 @@
+import './styles/fonts.css';
 import './styles/app.css';
 import './styles/balloon.css';
 import { miss, onKeys, pop, showRound } from './board.ts';
