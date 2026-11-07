@@ -23,6 +23,7 @@ function pill(node: HTMLElement, label: string, n: number): void {
   node.setAttribute('aria-label', `${label}: ${n}`);
 }
 
+// Updates the four score pills.
 export function score(p: Progress, level: number, lang: Lang): void {
   pill(el.stars, t(lang, 'stars'), p.stars);
   pill(el.streak, t(lang, 'streak'), p.streak);
@@ -30,11 +31,13 @@ export function score(p: Progress, level: number, lang: Lang): void {
   pill(el.level, t(lang, 'level'), level);
 }
 
+// Shows the kind message line with a small pulse.
 export function say(text: string): void {
   el.msg.textContent = text;
   replay(el.msg, 'pulse');
 }
 
+// Shows the level-up sticker once.
 export function banner(text: string): void {
   el.banner.textContent = text;
   replay(el.banner, 'show');
@@ -52,11 +55,13 @@ export function applyLang(lang: Lang, muted: boolean): void {
   setMuted(muted);
 }
 
+// Shows the sound switch state (icon + pressed state for screen readers).
 export function setMuted(muted: boolean): void {
   el.mute.textContent = muted ? '🔇' : '🔊';
   el.mute.setAttribute('aria-pressed', String(!muted));
 }
 
+// Wires the sound and language buttons.
 export function onSwitches(onMute: () => void, onLang: () => void): void {
   el.mute.addEventListener('click', onMute);
   el.lang.addEventListener('click', onLang);

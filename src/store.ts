@@ -38,6 +38,7 @@ export function safeStorage(): Storage | null {
   }
 }
 
+// Reads saved progress; unreadable data starts fresh with a warning.
 export function load(storage: Storage | null): Progress {
   try {
     return normalize(JSON.parse(storage?.getItem(KEY) ?? 'null'));
@@ -47,6 +48,7 @@ export function load(storage: Storage | null): Progress {
   }
 }
 
+// Writes progress; a full or blocked storage only warns, the game plays on.
 export function save(storage: Storage | null, p: Progress): void {
   try {
     storage?.setItem(KEY, JSON.stringify(p));

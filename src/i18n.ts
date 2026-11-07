@@ -39,6 +39,7 @@ export function pickLang(saved: Lang | null, device: readonly string[]): Lang {
   return first === 'ar' ? 'ar' : 'en';
 }
 
+// Looks up one label, filling {n} when given.
 export const t = (lang: Lang, key: Text, n?: number): string =>
   STRINGS[lang][key].replace('{n}', String(n ?? ''));
 

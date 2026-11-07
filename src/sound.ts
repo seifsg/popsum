@@ -20,6 +20,7 @@ function audio(): AudioContext | null {
   return (ctx = new AudioContext());
 }
 
+// Plays one short effect: a rising pop for right, a soft falling boop for wrong.
 export function play(kind: Sound): void {
   const ac = audio();
   if (!ac) return;

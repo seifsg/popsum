@@ -15,8 +15,10 @@ let progress: Progress = load(storage);
 let round: Round = makeRound(levelFor(progress.stars));
 let busy = false; // true while a pop plays: extra taps are ignored
 
+// Current language: the saved choice, else the device's.
 const lang = (): Lang => pickLang(progress.lang, navigator.languages ?? [navigator.language]);
 
+// Single write path: keep, save and show the new progress.
 function commit(next: Progress): void {
   progress = next;
   save(storage, progress);
@@ -26,6 +28,7 @@ function commit(next: Progress): void {
 // A repeated sum would look like the tap did nothing; every level has dozens of sums, so this ends fast.
 const sameSum = (x: Round, y: Round): boolean => x.a === y.a && x.b === y.b && x.op === y.op;
 
+// Starts a new round with a different sum and releases the input lock.
 function nextRound(): void {
   const prev = round;
   do round = makeRound(levelFor(progress.stars));
@@ -34,6 +37,7 @@ function nextRound(): void {
   busy = false;
 }
 
+// Handles one balloon tap: score it, give feedback, then pop and move on or let the child retry.
 async function onPick(btn: HTMLButtonElement, value: number): Promise<void> {
   if (busy) return;
   const before = levelFor(progress.stars);
@@ -49,11 +53,13 @@ async function onPick(btn: HTMLButtonElement, value: number): Promise<void> {
   nextRound();
 }
 
+// Sound switch: flips and saves mute.
 function toggleMute(): void {
   commit({ ...progress, muted: !progress.muted });
   hud.setMuted(progress.muted);
 }
 
+// Language switch: flips English/Arabic, saves it and redraws every label.
 function toggleLang(): void {
   commit({ ...progress, lang: lang() === 'ar' ? 'en' : 'ar' });
   hud.applyLang(lang(), progress.muted);

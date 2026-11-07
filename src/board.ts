@@ -11,6 +11,7 @@ const KEYS = ['123', '١٢٣']; // Latin and Arabic-Indic digits
 
 export type PickHandler = (btn: HTMLButtonElement, value: number) => void;
 
+// Random float in [lo, hi): motion variety only, so no seed is needed.
 const rand = (lo: number, hi: number): number => lo + Math.random() * (hi - lo);
 
 // Three different colours for this round.
@@ -36,6 +37,7 @@ function balloon(value: number, lane: number, color: number, onPick: PickHandler
   return btn;
 }
 
+// Draws a round: the sum with its "?" and three fresh balloons in random colours.
 export function showRound(round: Round, onPick: PickHandler): void {
   const q = document.createElement('span');
   q.className = 'q';
@@ -47,11 +49,12 @@ export function showRound(round: Round, onPick: PickHandler): void {
   if (keyboard) (sky.firstElementChild as HTMLElement | null)?.focus();
 }
 
-// Plays the pop; resolves when it ends (or is cancelled), so the next round never starts early.
+// Plays the pop; resolves when the pop itself ends (or is cancelled), so the next round never starts early.
+// Only 'pop' counts: adding .popped cancels the body's sway, and that cancel bubbles here too.
 export function pop(btn: HTMLButtonElement): Promise<void> {
   return new Promise((done) => {
     const end = (e: AnimationEvent): void => {
-      if (e.type === 'animationcancel' || e.animationName === 'pop') done();
+      if (e.animationName === 'pop') done();
     };
     btn.addEventListener('animationend', end);
     btn.addEventListener('animationcancel', end);
@@ -59,10 +62,12 @@ export function pop(btn: HTMLButtonElement): Promise<void> {
   });
 }
 
-// A wrong balloon wobbles, then dims and stops taking taps.
+// A wrong balloon wobbles, then dims and stops taking taps; keyboard focus moves to a balloon still in play.
 export function miss(btn: HTMLButtonElement): void {
+  const focused = document.activeElement === btn;
   btn.classList.add('missed');
   btn.disabled = true;
+  if (focused) sky.querySelector<HTMLButtonElement>('.balloon:not(:disabled)')?.focus();
 }
 
 // Keys 1-3 tap the balloons left to right.
