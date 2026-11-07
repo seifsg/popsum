@@ -78,7 +78,14 @@ button:focus-visible {
 .pill b {
   font-variant-numeric: tabular-nums;
 }
+/* Level: a tab on the sum card, so the top bar fits phones */
 .pill.level {
+  position: absolute;
+  top: -15px;
+  inset-inline-start: 18px;
+  min-height: 32px;
+  padding: 2px 14px;
+  font-size: 0.95rem;
   background: var(--accent);
   color: #fff;
 }
@@ -135,7 +142,9 @@ button:focus-visible {
   padding: 4px var(--gutter) max(8px, env(safe-area-inset-bottom));
 }
 .card {
-  padding: 12px 16px 10px;
+  position: relative;
+  margin-top: 16px;
+  padding: 14px 16px 10px;
   border-radius: 28px;
   background: var(--card);
   box-shadow: var(--shadow);
