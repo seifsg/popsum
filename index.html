@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Popsum: pop the right answer</title>
+    <meta name="description" content="Pop the balloon with the right answer: a calm math game for kids. No ads, no accounts, works offline." />
+    <meta name="theme-color" content="#38bdf8" />
+    <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/pwa-64x64.png" type="image/png" sizes="64x64" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon-180x180.png" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Popsum: pop the right answer" />
+    <meta property="og:description" content="A calm math game for kids. No ads, no accounts, works offline." />
+    <meta property="og:url" content="%VITE_SITE_URL%/" />
+    <meta property="og:image" content="%VITE_SITE_URL%/pwa-512x512.png" />
+    <script type="module" src="/src/main.ts"></script>
+  </head>
+  <body>
+    <div class="clouds" aria-hidden="true"><i></i><i></i><i></i></div>
+    <header class="bar">
+      <div class="pills">
+        <span class="pill" id="stars"><span aria-hidden="true">⭐</span> <b>0</b></span>
+        <span class="pill" id="streak"><span aria-hidden="true">🔥</span> <b>0</b></span>
+        <span class="pill" id="best"><span aria-hidden="true">🏆</span> <b>0</b></span>
+        <span class="pill level" id="level"><span class="word">Level</span> <b>1</b></span>
+      </div>
+      <div class="tools">
+        <button class="tool" id="lang" type="button">عربي</button>
+        <button class="tool" id="mute" type="button" aria-pressed="false">🔊</button>
+      </div>
+    </header>
+    <main class="play">
+      <section class="card">
+        <p class="sum" id="sum" dir="ltr" aria-live="polite"></p>
+        <p class="msg" id="msg" aria-live="polite"></p>
+      </section>
+      <div class="sky" id="sky"></div>
+      <p class="banner" id="banner" role="status"></p>
+    </main>
+  </body>
+</html>

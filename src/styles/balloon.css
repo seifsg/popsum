@@ -1,0 +1,177 @@
+/* Balloons: shape, colours, and the rise / sway / pop / wobble motion (all transform + opacity). */
+.sky {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  container-type: size;
+  overflow: hidden;
+}
+
+.balloon {
+  --size: clamp(92px, 26cqw, 160px);
+  position: absolute;
+  top: 100%;
+  left: calc(var(--x) - var(--size) / 2);
+  width: var(--size);
+  height: calc(var(--size) * 1.45);
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  animation: rise var(--dur) linear var(--delay) infinite;
+  will-change: transform;
+}
+.balloon:focus-visible {
+  outline: none;
+}
+.balloon:focus-visible .b {
+  outline: 5px solid #fff;
+  outline-offset: 4px;
+}
+
+/* Body: glossy egg shape, number centred */
+.b {
+  position: absolute;
+  inset: 0 0 22%;
+  display: grid;
+  place-items: center;
+  border-radius: 50% 50% 47% 47% / 56% 56% 44% 44%;
+  background:
+    radial-gradient(circle at 30% 26%, rgb(255 255 255 / 0.75) 0 7%, transparent 8%),
+    radial-gradient(circle at 36% 30%, var(--light), var(--c) 58%, var(--dark));
+  box-shadow: inset -10px -12px 20px rgb(0 0 0 / 0.18);
+  color: #fff;
+  font-size: calc(var(--size) * 0.4);
+  font-weight: 900;
+  font-variant-numeric: tabular-nums;
+  -webkit-text-stroke: 0.09em rgb(15 23 42 / 0.55);
+  paint-order: stroke fill;
+  text-shadow: 0 3px 0 rgb(15 23 42 / 0.25);
+  transform-origin: 50% 110%;
+  animation: sway var(--sway) ease-in-out infinite alternate;
+}
+/* Knot */
+.b::after {
+  content: '';
+  position: absolute;
+  top: 99%;
+  left: 50%;
+  width: 16%;
+  height: 8%;
+  translate: -50% 0;
+  background: var(--dark);
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+}
+/* String */
+.b::before {
+  content: '';
+  position: absolute;
+  top: 106%;
+  left: 50%;
+  width: 2px;
+  height: 26%;
+  background: linear-gradient(rgb(51 65 85 / 0.7), rgb(51 65 85 / 0));
+}
+
+.c0 { --c: #f43f5e; --light: #fda4af; --dark: #be123c; }
+.c1 { --c: #f59e0b; --light: #fde68a; --dark: #b45309; }
+.c2 { --c: #22c55e; --light: #86efac; --dark: #15803d; }
+.c3 { --c: #8b5cf6; --light: #c4b5fd; --dark: #6d28d9; }
+.c4 { --c: #ec4899; --light: #f9a8d4; --dark: #be185d; }
+
+/* Right answer: rise freezes, body pops, a dotted ring bursts */
+.balloon.popped {
+  animation-play-state: paused;
+  pointer-events: none;
+}
+.popped .b {
+  animation: pop 0.32s ease-out forwards;
+}
+.balloon.popped::after {
+  content: '';
+  position: absolute;
+  inset: 8% 4% 30%;
+  border: 6px dotted var(--c);
+  border-radius: 50%;
+  animation: burst 0.42s ease-out forwards;
+}
+
+/* Wrong answer: a gentle wobble, then it fades back and stops taking taps */
+.missed .b {
+  animation: wobble 0.5s ease-in-out;
+  opacity: 0.4;
+  filter: grayscale(0.7);
+  transition: opacity 0.4s 0.3s, filter 0.4s 0.3s;
+}
+.balloon:disabled {
+  cursor: default;
+}
+
+@keyframes rise {
+  to {
+    transform: translateY(calc(-100cqh - 100%));
+  }
+}
+@keyframes sway {
+  from {
+    transform: rotate(-4deg);
+  }
+  to {
+    transform: rotate(4deg);
+  }
+}
+@keyframes pop {
+  35% {
+    transform: scale(1.22);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.55);
+    opacity: 0;
+  }
+}
+@keyframes burst {
+  from {
+    transform: scale(0.6);
+    opacity: 1;
+  }
+  to {
+    transform: scale(1.7);
+    opacity: 0;
+  }
+}
+@keyframes wobble {
+  20% {
+    transform: rotate(-10deg);
+  }
+  40% {
+    transform: rotate(9deg);
+  }
+  60% {
+    transform: rotate(-6deg);
+  }
+  80% {
+    transform: rotate(3deg);
+  }
+}
+
+/* Reduced motion: balloons rest at fixed heights, pop is a short fade */
+@media (prefers-reduced-motion: reduce) {
+  .balloon {
+    top: auto;
+    bottom: var(--rest);
+    animation: none;
+  }
+  .b,
+  .missed .b {
+    animation: none;
+  }
+  .balloon.popped::after {
+    display: none;
+  }
+  @keyframes pop {
+    to {
+      opacity: 0;
+    }
+  }
+}
