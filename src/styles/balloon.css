@@ -11,7 +11,8 @@
   --size: clamp(92px, 26cqw, 160px);
   position: absolute;
   top: 100%;
-  left: clamp(0px, calc(var(--x) - var(--size) / 2), calc(100% - var(--size))); /* never clipped at the edges */
+  /* stays inside the sky, with room for the sway tilt, so edge balloons are never clipped */
+  left: clamp(8px, calc(var(--x) - var(--size) / 2), calc(100% - var(--size) - 8px));
   width: var(--size);
   height: calc(var(--size) * 1.45);
   padding: 0;
